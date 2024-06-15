@@ -10,5 +10,10 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(node, node2)
 
 
+    def test_text_type(self):
+        node = TextNode("The second one", "bold")
+        node2 = TextNode("The second one", "italic")
+        self.assertNotEqual(node.text_type, node2.text_type)
+
 if __name__ == "__main__":
     unittest.main()
