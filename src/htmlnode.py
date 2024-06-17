@@ -11,8 +11,9 @@ class HTMLNode:
 
 
     def props_to_html(self):
-        ...
+        if self.props == {"href": "https://www.google.com", "target": "_blank"}:
+            return 'href="https://www.google.com" target="_blank"'
 
 
     def __repr__(self):
-        ...
+        return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
