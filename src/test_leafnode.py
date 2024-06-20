@@ -7,7 +7,8 @@ class TestLeafNode(unittest.TestCase):
 
 
     def test_leanode_without_tag(self):
-        ...
+        node = LeafNode(value="Plain text without a tag.")
+        self.assertEqual(node.to_html(), "Plain text without a tag")
 
 
     def test_leafnode_raises_value_error(self):
