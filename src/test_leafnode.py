@@ -1,4 +1,5 @@
 import unittest
+from htmlnode import LeafNode
 
 class TestLeafNode(unittest.TestCase):
     def test_leafnode_with_tag_and_value(self):
@@ -8,7 +9,7 @@ class TestLeafNode(unittest.TestCase):
 
     def test_leanode_without_tag(self):
         node = LeafNode(value="Plain text without a tag.")
-        self.assertEqual(node.to_html(), "Plain text without a tag")
+        self.assertEqual(node.to_html(), "Plain text without a tag.")
 
 
     def test_leafnode_raises_value_error(self):
