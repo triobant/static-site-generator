@@ -13,7 +13,9 @@ class TestLeafNode(unittest.TestCase):
 
 
     def test_leafnode_raises_value_error(self):
-        ...
+        with self.assertRaises(ValueError):
+            node = LeafNode(tag="p", value=None)
+            node.to_html()
 
 
     def test_leafnode_with_props(self):
