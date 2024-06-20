@@ -20,5 +20,26 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(node.to_html(), "<p>Hello, world!</p>")
 
 
+    def test_to_html_no_tag(self):
+        node = LeafNode(None, "Hello, world!")
+        self.assertEqual(node.to_html(), "Hello, world!")
+
+
+    def test_leafnode_with_tag_and_value(self):
+        node = LeafNode(tag="p", value="This is a paragraph.")
+        self.assertEqual(node.to_html(), "<p>This is a paragraph.</p>")
+
+
+    def test_leafnode_raises_value_error(self):
+        with self.assertRaises(ValueError):
+            node = LeafNode(tag="p", value=None)
+            node.to_html()
+
+
+    def test_leafnode_with_props(self):
+        node = LeafNode(tag="a", value="Click me", props={"href": "https://www.example.com"})
+        self.assertEqual(node.to_html(), '<a href="https://www.example.com">Click me</a>')
+
+
 if __name__ == "__main__":
     unittest.main()
