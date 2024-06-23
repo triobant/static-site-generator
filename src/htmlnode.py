@@ -52,7 +52,7 @@ class ParentNode(HTMLNode):
         if self.children is None:
             raise ValueError("Invalid HTML: no children")
         children_html = ''.join([child.to_html() for child in self.children])
-        return f"<{self.tag}>{children_html}</{self.tag}"
+        return f"<{self.tag}>{children_html}</{self.tag}>"
 
 
     def __repr__(self):
