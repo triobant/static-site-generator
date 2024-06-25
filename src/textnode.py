@@ -39,24 +39,3 @@ def text_node_to_html_node(text_node):
     if text_node.text_type == text_type_image:
         return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
     raise ValueError(f"Invalid text type: {text_node.text_type}")
-
-
-def split_node_delimiter(old_nodes, delimiter, text_type):
-    new_nodes = []
-
-    for old_node in old_nodes:
-        if old_node.text_type != text_type_text:
-            new_nodes.append(old_node)
-        else:
-            parts = old_node.text.split(delimiter)
-            if len(parts) != 3:
-                raise Exception("Invalid markdown syntax")
-
-            text_types = ["text", text_type, "text"]
-            new_nodes.extend(
-                list(
-                    map(lambda i: TextNode(parts[i], text_types[i]), range(len(parts)))
-                )
-            )
-
-    return new_nodes
