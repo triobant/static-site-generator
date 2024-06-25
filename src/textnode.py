@@ -44,7 +44,17 @@ def text_node_to_html_node(text_node):
 def split_node_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
 
-    if old_node != text_type_text:
-        new_nodes.append(old_node)
+    for old_node in old_nodes:
+        if old_node.text_type != text_type_text:
+            new_nodes.append(old_node)
+        else:
+            parts = old_node.text.split(delimiter)
+            if len(parts) != 3:
+                raise Exception("Invalid markdown syntax")
+            new_nodes.extend([
+                TextNode(parts[0], text_type_text),
+                TextNode(parts[1], new_text_type),
+                TextNode(parts[2], text_type_text),
+            ])
 
     return new_nodes
