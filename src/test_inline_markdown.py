@@ -1,8 +1,10 @@
 import unittest
 from inline_markdown import (
     split_nodes_delimiter,
-    extract_markdown_image,
+    extract_markdown_images,
     extract_markdown_links,
+    split_nodes_image,
+    split_nodes_link,
 )
 
 from textnode import (
@@ -11,6 +13,8 @@ from textnode import (
     text_type_bold,
     text_type_italic,
     text_type_code,
+    text_type_image,
+    text_type_link,
 )
 
 
@@ -104,7 +108,7 @@ class TestInlineMarkdown(unittest.TestCase):
 
 
     def test_extract_markdown_images(self):
-        matches = extract_markdown_image(
+        matches = extract_markdown_images(
             "Text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
         )
         self.assertListEqual([("image", "https://i.imgur.com/zjjcJKZ.png")], matches)
@@ -123,7 +127,36 @@ class TestInlineMarkdown(unittest.TestCase):
         )
 
 
-    def test_split_nodes_image(self):
+    def test_split_image(self):
+        node = TextNode(
+            "This is a ![story](https://en.wikipedia.org/wiki/The_Fresh_Prince_of_Bel-Air#/media/File:Fresh_Prince_Bel_Aire_logo.svg)",
+            text_type_text,
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("This is a ", text_type_text),
+                TextNode("story", text_type_image, "https://en.wikipedia.org/wiki/The_Fresh_Prince_of_Bel-Air#/media/File:Fresh_Prince_Bel_Aire_logo.svg"),
+            ],
+            new_nodes,
+        )
+
+
+    def test_split_image_single(self):
+        node = TextNode(
+            "![single](https://i0.wp.com/www.moreradiance.com/wp-content/uploads/2017/05/How-to-Be-Happy-Being-Single.png)",
+            text_type_text,
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("single", text_type_image, "https://i0.wp.com/www.moreradiance.com/wp-content/uploads/2017/05/How-to-Be-Happy-Being-Single.png"),
+            ],
+            new_nodes,
+        )
+
+
+    def test_split_images(self):
         node = TextNode(
             "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)",
             text_type_text,
@@ -142,12 +175,41 @@ class TestInlineMarkdown(unittest.TestCase):
         )
 
 
-    def test_split_nodes_links(self):
+    def test_split_link(self):
         node = TextNode(
-            "This is text with a [link](https://boot.dev) and another [another link](https://blog.boot.dev)",
+            "This is a [story](https://en.wikipedia.org/wiki/The_Fresh_Prince_of_Bel-Air)",
             text_type_text,
         )
-        new_nodes = split_nodes_links([node])
+        new_nodes = split_nodes_link([node])
+        self.assertListEqual(
+            [
+                TextNode("This is a ", text_type_text),
+                TextNode("story", text_type_link, "https://en.wikipedia.org/wiki/The_Fresh_Prince_of_Bel-Air"),
+            ],
+            new_nodes,
+        )
+
+
+    def test_split_link_single(self):
+        node = TextNode(
+            "[single](https://moreradiance.com/how-to-be-happy-being-single/)",
+            text_type_text,
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertListEqual(
+            [
+                TextNode("single", text_type_link, "https://moreradiance.com/how-to-be-happy-being-single/"),
+            ],
+            new_nodes,
+        )
+
+
+    def test_split_links(self):
+        node = TextNode(
+            "This is text with a [link](https://boot.dev) and [another link](https://blog.boot.dev)",
+            text_type_text,
+        )
+        new_nodes = split_nodes_link([node])
         self.assertListEqual(
             [
                 TextNode("This is text with a ", text_type_text),
@@ -157,7 +219,7 @@ class TestInlineMarkdown(unittest.TestCase):
                     "another link", text_type_link, "https://blog.boot.dev"
                 ),
             ],
-            new_nodes
+            new_nodes,
         )
 
 
