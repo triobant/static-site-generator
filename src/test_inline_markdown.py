@@ -142,5 +142,24 @@ class TestInlineMarkdown(unittest.TestCase):
         )
 
 
+    def test_split_nodes_links(self):
+        node = TextNode(
+            "This is text with a [link](https://boot.dev) and another [another link](https://blog.boot.dev)",
+            text_type_text,
+        )
+        new_nodes = split_nodes_links([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with a ", text_type_text),
+                TextNode("link", text_type_link, "https://boot.dev"),
+                TextNode(" and ", text_type_text),
+                TextNode(
+                    "another link", text_type_link, "https://blog.boot.dev"
+                ),
+            ],
+            new_nodes
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
