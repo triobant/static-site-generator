@@ -17,6 +17,10 @@ def markdown_to_blocks(markdown):
     return filtered_blocks
 
 
+def markdown_to_blocks(markdown):
+    ...
+
+
 def block_to_block_type(block):
     lines = block.split("\n")
 
@@ -59,3 +63,12 @@ def block_to_block_type(block):
             i += 1
         return block_type_ordered_list
     return block_type_paragraph
+
+
+def text_to_children(text):
+    text_nodes = text_to_textnodes(text)
+    children = []
+    for text_node in text_nodes:
+        html_node = text_node_to_html_node(text_node)
+        children.append(html_node)
+    return children
