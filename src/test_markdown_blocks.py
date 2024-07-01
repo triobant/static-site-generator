@@ -122,5 +122,22 @@ This is another paragraph with *italic* text and `code` here
             )
 
 
+        def test_headings(self):
+            md = """
+# this is an h1
+
+this is a paragraph
+
+## this is an h2
+"""
+
+            node = markdown_to_html_node(md)
+            html = node.to_html()
+            self.assertEqual(
+                html,
+                "<div><h1>this is an h1</h1><p>this is a paragraph</p><h2>this is an h2</h2></div>",
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
