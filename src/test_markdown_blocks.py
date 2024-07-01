@@ -71,5 +71,20 @@ This is the same paragraph on a new line
             self.assertEqual(block_to_block_type(block), block_type_paragraph)
 
 
+        def test_paragraph(self):
+            md = """
+This is **bolded** paragraph
+text in a p
+tag here
+
+"""
+            node = markdown_to_html_node(md)
+            html = node.to_html()
+            self.assertEqual(
+                html,
+                "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p></div>",
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
