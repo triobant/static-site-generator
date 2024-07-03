@@ -157,7 +157,7 @@ this is paragraph text
         )
 
 
-    def test_code(self):
+    def test_codeblock(self):
         md = """
 ```
 This is a multi
