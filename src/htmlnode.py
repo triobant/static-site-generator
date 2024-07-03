@@ -25,6 +25,8 @@ class HTMLNode:
 
 
 class LeafNode(HTMLNode):
+    SELF_CLOSING_TAGS = {'img', 'br', 'hr', 'input', 'meta', 'link'}
+
     def __init__(self, tag, value, props = None):
         super().__init__(tag, value, None, props)
 
@@ -34,7 +36,10 @@ class LeafNode(HTMLNode):
             raise ValueError("Invalid HTML: no value")
         if self.tag is None:
             return self.value
-        return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
+        if self.tag in self.SELF_CLOSING_TAGS:
+            return f"<{self.tag}{self.props_to_html()}>{self.value}"
+        else:
+            return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
 
 
     def __repr__(self):
