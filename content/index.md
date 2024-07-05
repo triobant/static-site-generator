@@ -2,4 +2,8 @@
 
 I like Tolkien. Read my [first post here](/majesty)
 
-Read my [second post about my projects here](/projects)
+## About Me
+
+Hello there!
+
+You can see things I've done in my [second post about my projects here](/projects)
